@@ -1,0 +1,19 @@
+*{
+    outline: solid red 1px;
+    margin: 0;
+}
+
+#root{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100vw;
+    height: 100vh;
+}
+
+.inputSection{
+    background-color: blue;
+}
+
+.outputPreview{
+    background-color: peachpuff;
+}
