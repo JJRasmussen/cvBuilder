@@ -1,9 +1,44 @@
 import { useState } from 'react'
 import '../styles/mainLayout.css'
 import { InputField } from './inputField.jsx'
-
+import { educationInputTemplate, workInputTemplate } from '../templates/inputTemplates.js'
 
 const MainLayout = () => { 
+    const [inputSections, setInputSections] = useState({
+        inputFields: [
+            {
+            key: "personal",
+            headline: "Personal Information",
+            input: [
+                {
+                    inputLabelFor: "Full Name",
+                    inputType: "text",
+                    inputId: "fullName",
+                    inputPlaceholder: "Jane Doe",
+                },
+                {
+                    inputLabelFor: "Email",
+                    inputType: "text",
+                    inputId: "email",
+                    inputPlaceholder: "jane.doe@doemail.com",
+                },
+                {
+                    inputLabelFor: "Phone Number",
+                    inputType: "tel",
+                    inputId: "phoneNr",
+                    inputPlaceholder: "12345678",
+                },
+                {
+                    inputLabelFor: "Address",
+                    inputType: "text",
+                    inputId: "address",
+                    inputPlaceholder: "Andeby",
+                },
+                ]
+            },
+        ]
+    })
+
     const [personalData, setPersonalData] = useState({
         fullName: '',
         email: '',
@@ -11,131 +46,50 @@ const MainLayout = () => {
         address: '',
     });
 
-    function handleChange(e) {
+    const addInputSection = (inputCategory) => {
+        if (inputCategory === "education"){
+            const newEducationalSection = {...educationInputTemplate, key: crypto.randomUUID()};
+            newEducationalSection.input.map((input) => ({
+                ...input,
+                inputId: crypto.randomUUID()
+            }))
+            setInputSections(prevData => ({
+                ...prevData,
+                inputFields: [...prevData.inputFields, newEducationalSection]
+            }))
+        } else {
+            const newWorkSection = {...workInputTemplate, key: crypto.randomUUID()};
+            newWorkSection.input.map((input) => ({
+                ...input,
+                inputId: crypto.randomUUID()
+            }))
+            setInputSections(prevData => ({
+                ...prevData,
+                inputFields: [...prevData.inputFields, newWorkSection]
+            }))
+        }
+    }
+    function handleInputChange(e) {
         const { name, value } = e.target;
         setPersonalData(prevData => ({
             ...prevData,
             [name]: value,
         }))
-    }
-
-    const inputFields = [
-        {
-        key: "personal",
-        headline: "Personal Information",
-        input: [
-            {
-                inputLabelFor: "Full Name",
-                inputType: "text",
-                inputId: "fullName",
-                inputPlaceholder: "Jane Doe",
-                
-            },
-            {
-                inputLabelFor: "Email",
-                inputType: "text",
-                inputId: "email",
-                inputPlaceholder: "jane.doe@doemail.com",
-            },
-            {
-                inputLabelFor: "Phone Number",
-                inputType: "text",
-                inputId: "phoneNr",
-                inputPlaceholder: "12345678",
-            },
-            {
-                inputLabelFor: "Address",
-                inputType: "text",
-                inputId: "address",
-                inputPlaceholder: "Andeby",
-            },
-            ]
-        },
-        {
-            key: "education",
-            headline: "Education",
-            input: [
-                {
-                    inputLabelFor: "School or University",
-                    inputType: "text",
-                    inputId: "schoolInput",
-                    inputPlaceholder: "Aarhus University",
-                },
-                {
-                    inputLabelFor: "Degree",
-                    inputType: "text",
-                    inputId: "degreeInput",
-                    inputPlaceholder: "Diplomingeniør i Fødevareteknologi",
-                },
-                {
-                    inputLabelFor: "Start Month",
-                    inputType: "month",
-                    inputId: "educationStart",
-                    inputPlaceholder: "Starting Month",
-                },
-                {
-                    inputLabelFor: "Finish Month",
-                    inputType: "month",
-                    inputId: "educationEnd",
-                    inputPlaceholder: "Final Month",
-                },
-                {
-                    inputLabelFor: "Location",
-                    inputType: "text",
-                    inputId: "schoolLocationInput",
-                    inputPlaceholder: "Aarhus, Denmark",
-                },
-            ]
-        },
-        {
-            key: "work",
-            headline: "Work Experience",
-            input: [
-                {
-                    inputLabelFor: "Company Name",
-                    inputType: "text",
-                    inputId: "companyNameInput",
-                    inputPlaceholder: "Enter company name",
-                },
-                {
-                    inputLabelFor: "Position Title",
-                    inputType: "text",
-                    inputId: "positionTitleInput",
-                    inputPlaceholder: "Enter position title",
-                },
-                {
-                    inputLabelFor: "Start Month",
-                    inputType: "month",
-                    inputId: "workStartMonth",
-                    inputPlaceholder: "Starting Month",
-                },
-                {
-                    inputLabelFor: "Ending Month",
-                    inputType: "month",
-                    inputId: "workEndMonth",
-                    inputPlaceholder: "Final Month",
-                },
-                {
-                    inputLabelFor: "Description",
-                    inputType: "text",
-                    inputId: "workDescriptionInput",
-                    inputPlaceholder: "Describe your tasks",
-                },
-            ]
-        }
-    ]
+    }    
     return(
         <>
             <div className="inputSection">
-                {inputFields.map((inputField) => {
-                    return(
+                {inputSections.inputFields.map((inputField) => {
+                return(
                     <InputField 
                         headline = {inputField.headline} 
                         input = {inputField.input}
                         key = {inputField.key}
-                        onChange = {handleChange}
+                        onChange = {handleInputChange}
                     />
                 )})}
+                <button onClick={() => addInputSection("education")}>Add Educational Section</button>
+                <button onClick={() => addInputSection("work")}>Add Work Section</button>
             </div>
             <div className="outputPreview">
                 <div className="outputHeader">
