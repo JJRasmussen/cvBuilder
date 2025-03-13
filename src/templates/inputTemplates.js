@@ -1,7 +1,7 @@
     
     const educationInputTemplate = {
-        key: "education",
-        headline: "Education",
+        key: "",
+        deleteButtonKey: "",
         input: [
             {
                 inputLabelFor: "School or University",
@@ -37,8 +37,8 @@
     }
     
     const workInputTemplate = {
-        key: "work",
-        headline: "Work Experience",
+        key: "",
+        deleteButtonKey: "",
         input: [
             {
                 inputLabelFor: "Company Name",
