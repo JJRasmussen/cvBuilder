@@ -6,13 +6,13 @@
             {
                 inputLabelFor: "School or University",
                 inputType: "text",
-                inputId: "schoolInput",
+                inputId: "school",
                 inputPlaceholder: "Aarhus University",
             },
             {
                 inputLabelFor: "Degree",
                 inputType: "text",
-                inputId: "degreeInput",
+                inputId: "degree",
                 inputPlaceholder: "Diplomingeniør i Fødevareteknologi",
             },
             {
@@ -30,7 +30,7 @@
             {
                 inputLabelFor: "Location",
                 inputType: "text",
-                inputId: "schoolLocationInput",
+                inputId: "schoolLocation",
                 inputPlaceholder: "Aarhus, Denmark",
             },
         ]
@@ -43,31 +43,31 @@
             {
                 inputLabelFor: "Company Name",
                 inputType: "text",
-                inputId: "companyNameInput",
+                inputId: "companyName",
                 inputPlaceholder: "Enter company name",
             },
             {
                 inputLabelFor: "Position Title",
                 inputType: "text",
-                inputId: "positionTitleInput",
+                inputId: "position",
                 inputPlaceholder: "Enter position title",
             },
             {
                 inputLabelFor: "Start Month",
                 inputType: "month",
-                inputId: "workStartMonth",
+                inputId: "workStart",
                 inputPlaceholder: "Starting Month",
             },
             {
                 inputLabelFor: "Ending Month",
                 inputType: "month",
-                inputId: "workEndMonth",
+                inputId: "workEnd",
                 inputPlaceholder: "Final Month",
             },
             {
                 inputLabelFor: "Description",
                 inputType: "text",
-                inputId: "workDescriptionInput",
+                inputId: "workDescription",
                 inputPlaceholder: "Describe your tasks",
             },
         ]

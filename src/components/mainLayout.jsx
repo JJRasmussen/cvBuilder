@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import '../styles/mainLayout.css'
 import { InputField } from './inputField.jsx'
+import { OutputField } from './outputField.jsx'
 import { educationInputTemplate, workInputTemplate } from '../templates/inputTemplates.js'
+import { educationalDataTemplate, workDataTemplate } from '../templates/dataTemplates.js'
+
 
 const MainLayout = () => { 
     const [inputSections, setInputSections] = useState({
@@ -47,46 +50,59 @@ const MainLayout = () => {
             input:[]
         },
     })
-    const [personalData, setPersonalData] = useState({
+    const [personalData, setPersonalData] = useState([{
         fullName: '',
         email: '',
         phoneNr: '',
         address: '',
-    });
-
+    }]);
+    const [educationalData, setEducationalData] = useState([
+    ]);
+    const [workData, setWorkData] = useState([
+    ]);
     const addInputSection = (inputCategory) => {
         if (inputCategory === "education"){
-            let newEducationalSection = {...educationInputTemplate, key: crypto.randomUUID(), deleteButtonKey: crypto.randomUUID()};
-            newEducationalSection.input = newEducationalSection.input.map((input) => ({
+            //add educational section to input section
+            let newEducationalInputSection = {...educationInputTemplate, key: crypto.randomUUID(), deleteButtonKey: crypto.randomUUID()};
+            newEducationalInputSection.input = newEducationalInputSection.input.map((input) => ({
                 ...input,
-                inputId: crypto.randomUUID()
             }))
             setInputSections(prevData =>({
                 ...prevData,
                 educational: {
                     ...prevData.educational,
-                    input: [...prevData.educational.input, newEducationalSection]        
+                    input: [...prevData.educational.input, newEducationalInputSection]        
                 }
             }))
-            console.log("sectionKey for deletion")
-            console.log(newEducationalSection.key)
+            //add educational section to output section
+            let newEducationalData = {...educationalDataTemplate, key: crypto.randomUUID(), inputKey: newEducationalInputSection.key}
+            setEducationalData(prevData => ([
+                ...prevData,
+                newEducationalData
+            ]))
         } if (inputCategory === "work"){
-            let newWorkSection = {...workInputTemplate, key: crypto.randomUUID(), deleteButtonKey: crypto.randomUUID()};
-            newWorkSection.input = newWorkSection.input.map((input) => ({
+            //add work section to input section
+            let newWorkInputSection = {...workInputTemplate, key: crypto.randomUUID(), deleteButtonKey: crypto.randomUUID()};
+            newWorkInputSection.input = newWorkInputSection.input.map((input) => ({
                 ...input,
-                inputId: crypto.randomUUID()
             }))
             setInputSections(prevData => ({
                 ...prevData,
                 work: {
                     ...prevData.work,
-                    input: [...prevData.work.input, newWorkSection]
+                    input: [...prevData.work.input, newWorkInputSection]
                 }
             }))
+            //add work section to output section
+            let newWorkData = {...workDataTemplate, key: crypto.randomUUID(), inputKey: newWorkInputSection.key}
+            setWorkData(prevData => ([
+                ...prevData,
+                newWorkData
+            ]))
         }
     }
-
     const removeInputSection = (sectionType, sectionKey) => {
+        console.log("sectionKey " + sectionKey)
         if (sectionType === "education"){
             setInputSections(prevData => ({
                 ...prevData,
@@ -95,8 +111,13 @@ const MainLayout = () => {
                     input: [...prevData.educational.input.filter((eachSection) => eachSection.key != sectionKey)]      
                 }
             }))
+            //remove educational section from output section
+            setEducationalData(prevData => ([
+                ...prevData.filter((eachSection) => eachSection.inputKey != sectionKey),
+            ]))
         }
         if (sectionType === "work"){
+            //remove work section from input section
             setInputSections(prevData => ({
                 ...prevData,
                 work: {
@@ -104,10 +125,38 @@ const MainLayout = () => {
                     input: [...prevData.work.input.filter((eachSection) => eachSection.key != sectionKey)]
                 }
             }))
+            //remove work section from output section
+            setWorkData(prevData => ([
+                ...prevData.filter((eachSection) => eachSection.inputKey != sectionKey),
+            ]))
         }
+    }
+    function handleEducationalInputChange(e, inputSectionKey) {
+        const { name, value } = e.target;
+        setEducationalData(prevData => {
+            const newData = prevData.map(section => {
+                if(section.inputKey === inputSectionKey) {
+                    return {...section, [name]: value};
+                }
+                return section;
+            })
+            return newData;})   
+    }    
+    function handleWorkInputChange(e, inputSectionKey) {
+        const { name, value } = e.target;
+        setWorkData(prevData => {
+            const newData = prevData.map(section => {
+                if(section.inputKey === inputSectionKey) {
+                    return {...section, [name]: value};
+                }
+                return section;
+            })
+            return newData;})   
     }
     function handlePersonalInputChange(e) {
         const { name, value } = e.target;
+        console.log("name: " + name)
+        console.log("value: " + value)
         setPersonalData(prevData => ({
             ...prevData,
             [name]: value,
@@ -124,14 +173,16 @@ const MainLayout = () => {
                 }
                 {<InputField className="educationalSection"
                         section = {inputSections.educational}
-                        onChange = {handlePersonalInputChange}
+                        onChange = {handleEducationalInputChange}
                         removeSection = {removeInputSection}
+                        sectionType = 'educational'
                     />   
                 }
                 {<InputField className="workSection"
                         section = {inputSections.work}
-                        onChange = {handlePersonalInputChange}
+                        onChange = {handleWorkInputChange}
                         removeSection = {removeInputSection}
+                        sectionType = 'work'
                     />   
                 }
                 <button onClick={() => addInputSection("education")}>Add Educational Section</button>
@@ -143,6 +194,18 @@ const MainLayout = () => {
                     <p>You can send me an email at: {personalData.email}</p>
                     <p>Give me a call. my number is {personalData.phoneNr}</p>
                     <p>or feel free to swing by. I live at {personalData.address}</p>
+                </div>
+                <div className="outputMain">
+                {<OutputField className="educationalSection"
+                        section = {inputSections.educational}
+                        data = {educationalData}
+                    />   
+                }
+                {<OutputField className="workSection"
+                        section = {inputSections.work}
+                        data = {workData}
+                    />   
+                }
                 </div>
             </div>
         </>
