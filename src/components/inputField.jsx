@@ -30,7 +30,7 @@ const InputField = ({section, onChange, removeSection}) => {
                         inputSectionKey = {eachSection.key}
                     />
             ))
-            newSection.push(<button key = {eachSection.deleteButtonKey} onClick={() => removeSection(section.key, eachSection.key)}>{eachSection.key}</button>)
+            newSection.push(<button key = {eachSection.deleteButtonKey} onClick={() => removeSection(section.key, eachSection.key)}>Remove section</button>)
             inputSections.push(newSection)
         })
     }

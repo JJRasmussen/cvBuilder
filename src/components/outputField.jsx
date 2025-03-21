@@ -11,28 +11,33 @@ const OutputField = ({section, data}) => {
                 <p>or feel free to swing by. I live at {data.address}</p>
             </div>
     } else if (section.key === 'education'){
+        let educationHeadline = <h1>Educational Experience</h1>
         newSection = data.map((eachSection) => (
-            <div className='outputHeader' key={eachSection.key}>
-                <h1>Degree: {eachSection.degree}</h1>
-                <p>School/University: {eachSection.school}</p>
-                <p>Started on: {eachSection.educationStart}</p>
-                <p>Ended on: {eachSection.educationEnd}</p>
-                <p>Location: {eachSection.schoolLocation}</p>
-            </div>   
+                <div className='outputHeader' key={eachSection.key}>
+                    <h2>Degree: {eachSection.degree}</h2>
+                    <p>School/University: {eachSection.school}</p>
+                    <p>Started on: {eachSection.educationStart}</p>
+                    <p>Ended on: {eachSection.educationEnd}</p>
+                    <p>Location: {eachSection.schoolLocation}</p>
+                </div>
         ))
+        outputSections.push(educationHeadline)
         outputSections.push(newSection) 
     } else if (section.key === 'work'){
+        let workHeadline = <h1>Work Experience</h1>
         newSection = data.map((eachSection) => (
         <div className='outputHeader' key={eachSection.key}>
-                <h1>Position: {eachSection.position}</h1>
+                <h2>Position: {eachSection.position}</h2>
                 <p>Company: {eachSection.companyName}</p>
                 <p>Starting on: {eachSection.workStart}</p>
                 <p>Ended on: {eachSection.workEnd}</p>
                 <p>Description: {eachSection.workDescription}</p>
             </div>
         ))  
+        outputSections.push(workHeadline)
         outputSections.push(newSection) 
     }
+    console.log(outputSections)
     return (outputSections) 
 }
 

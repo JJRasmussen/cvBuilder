@@ -169,44 +169,35 @@ const MainLayout = () => {
                         section = {inputSections.personal} 
                         onChange = {handlePersonalInputChange}
                         removeSection = {removeInputSection}
-                    />   
-                }
+                />}
                 {<InputField className="educationalSection"
                         section = {inputSections.educational}
                         onChange = {handleEducationalInputChange}
                         removeSection = {removeInputSection}
                         sectionType = 'educational'
-                    />   
-                }
+                />}
                 {<InputField className="workSection"
                         section = {inputSections.work}
                         onChange = {handleWorkInputChange}
                         removeSection = {removeInputSection}
                         sectionType = 'work'
-                    />   
-                }
+                />}
                 <button onClick={() => addInputSection("education")}>Add Educational Section</button>
                 <button onClick={() => addInputSection("work")}>Add Work Section</button>
             </div>
             <div className="outputPreview">
-                <div className="outputHeader">
-                    <h1>{personalData.fullName}</h1>
-                    <p>You can send me an email at: {personalData.email}</p>
-                    <p>Give me a call. my number is {personalData.phoneNr}</p>
-                    <p>or feel free to swing by. I live at {personalData.address}</p>
-                </div>
-                <div className="outputMain">
+                {<OutputField className="personal"
+                        section = {inputSections.personal}
+                        data = {personalData}
+                />}
                 {<OutputField className="educationalSection"
                         section = {inputSections.educational}
                         data = {educationalData}
-                    />   
-                }
+                />}
                 {<OutputField className="workSection"
                         section = {inputSections.work}
                         data = {workData}
-                    />   
-                }
-                </div>
+                />}
             </div>
         </>
     )
